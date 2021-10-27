@@ -1,6 +1,7 @@
 {
   "name": "truth-or-dare",
   "main": "index.js",
+  "version": "1.0.0",
   "description": "library to interact with the truth or dare api",
   "dependencies": {
     "@sapphire/async-queue": "^1.1.8",
