@@ -1,4 +1,4 @@
-import { client } from "robert";
+import robert from "robert";
 import { AsyncQueue } from "@sapphire/async-queue";
 
 export type Rating = "PG" | "PG13" | "R";
@@ -12,7 +12,7 @@ export interface Response {
 
 const pending = new Set();
 const queue = new AsyncQueue();
-const robert = client("https://api.truthordarebot.xyz/api");
+const client = robert.client("https://api.truthordarebot.xyz/api");
 
 async function request(path: string, rating?: Rating): Promise<Response> {
   await queue.wait();
@@ -21,7 +21,7 @@ async function request(path: string, rating?: Rating): Promise<Response> {
     pending.clear();
   }
 
-  const req = robert.get(path);
+  const req = client.get(path);
   if (rating) req.query("rating", rating);
 
   const res = req.send("json");
