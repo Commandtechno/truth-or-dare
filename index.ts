@@ -25,7 +25,6 @@ const defaultRatings = new Set<Rating>();
 // utility
 
 async function request(path: string, ratings: Rating | Iterable<Rating>): Promise<Response> {
-  console.log(ratings);
   await queue.wait();
   if (pending.size >= 5) {
     await Promise.all(pending);
