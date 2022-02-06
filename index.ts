@@ -25,6 +25,7 @@ const defaultRatings = new Set<Rating>();
 // utility
 
 async function request(path: string, ratings: Rating | Iterable<Rating>): Promise<Response> {
+  console.log(ratings);
   await queue.wait();
   if (pending.size >= 5) {
     await Promise.all(pending);
@@ -58,7 +59,7 @@ export function enable(ratings?: Rating | Iterable<Rating>) {
 
 export function disable(ratings?: Rating | Iterable<Rating>) {
   if (typeof ratings === "string") defaultRatings.delete(ratings);
-  else for (const rating of ratings) defaultRatings.add(rating);
+  else for (const rating of ratings) defaultRatings.delete(rating);
 }
 
 // api routes
