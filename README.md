@@ -15,11 +15,16 @@ sponsored by my last 2 braincells and coding he is coding or something idk
 functions
 
 ```ts
-function truth(rating?: Rating): Promise<Response>;
-function dare(rating?: Rating): Promise<Response>;
-function wyr(rating?: Rating): Promise<Response>;
-function nhie(rating?: Rating): Promise<Response>;
-function paranoia(rating?: Rating): Promise<Response>;
+// enable or disable a rating by default
+function enable(rating?: Rating | Iterable<Rating>);
+function disable(rating?: Rating | Iterable<Rating>);
+
+// the api methods
+function truth(rating?: Rating | Iterable<Rating>): Promise<Response>;
+function dare(rating?: Rating | Iterable<Rating>): Promise<Response>;
+function wyr(rating?: Rating | Iterable<Rating>): Promise<Response>;
+function nhie(rating?: Rating | Iterable<Rating>): Promise<Response>;
+function paranoia(rating?: Rating | Iterable<Rating>): Promise<Response>;
 ```
 
 types

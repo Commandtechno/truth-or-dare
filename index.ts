@@ -1,5 +1,9 @@
-import robert from "robert";
+// libraries
+
 import { AsyncQueue } from "@sapphire/async-queue";
+import robert from "robert";
+
+// types
 
 export type Rating = "PG" | "PG13" | "R";
 export type Type = "TRUTH" | "DARE" | "WYR" | "NHIE" | "PARANOIA";
@@ -10,11 +14,17 @@ export interface Response {
   question: string;
 }
 
-const pending = new Set();
+// constants
+
 const queue = new AsyncQueue();
 const client = robert.client("https://api.truthordarebot.xyz/v1");
 
-async function request(path: string, rating?: Rating): Promise<Response> {
+const pending = new Set<Promise<unknown>>();
+const defaultRatings = new Set<Rating>();
+
+// utility
+
+async function request(path: string, ratings: Rating | Iterable<Rating>): Promise<Response> {
   await queue.wait();
   if (pending.size >= 5) {
     await Promise.all(pending);
@@ -22,7 +32,8 @@ async function request(path: string, rating?: Rating): Promise<Response> {
   }
 
   const req = client.get(path);
-  if (rating) req.query("rating", rating);
+  if (typeof ratings === "string") req.query("rating", ratings);
+  else for (const rating of ratings) req.query("rating", rating);
 
   const res = req.send("json");
   const promise = new Promise(resolve =>
@@ -38,22 +49,36 @@ async function request(path: string, rating?: Rating): Promise<Response> {
   return data;
 }
 
-export function truth(rating?: Rating) {
-  return request("/truth", rating);
+// default ratings
+
+export function enable(ratings?: Rating | Iterable<Rating>) {
+  if (typeof ratings === "string") defaultRatings.add(ratings);
+  else for (const rating of ratings) defaultRatings.add(rating);
 }
 
-export function dare(rating?: Rating) {
-  return request("/dare", rating);
+export function disable(ratings?: Rating | Iterable<Rating>) {
+  if (typeof ratings === "string") defaultRatings.delete(ratings);
+  else for (const rating of ratings) defaultRatings.add(rating);
 }
 
-export function wyr(rating?: Rating) {
-  return request("/wyr", rating);
+// api routes
+
+export function truth(ratings: Rating | Iterable<Rating> = defaultRatings) {
+  return request("/truth", ratings);
 }
 
-export function nhie(rating?: Rating) {
-  return request("/nhie", rating);
+export function dare(ratings: Rating | Iterable<Rating> = defaultRatings) {
+  return request("/dare", ratings);
 }
 
-export function paranoia(rating?: Rating) {
-  return request("/paranoia", rating);
+export function wyr(ratings: Rating | Iterable<Rating> = defaultRatings) {
+  return request("/wyr", ratings);
+}
+
+export function nhie(ratings: Rating | Iterable<Rating> = defaultRatings) {
+  return request("/nhie", ratings);
+}
+
+export function paranoia(ratings: Rating | Iterable<Rating> = defaultRatings) {
+  return request("/paranoia", ratings);
 }

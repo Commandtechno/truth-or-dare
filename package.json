@@ -1,7 +1,7 @@
 {
   "name": "truth-or-dare",
   "main": "index.js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "library to interact with the truth or dare api",
   "dependencies": {
     "@sapphire/async-queue": "^1.1.9",
@@ -11,7 +11,7 @@
     "@types/node": "^17.0.4"
   },
   "scripts": {
-    "build": "tsc index -D",
-    "start": "npm run build && node ."
+    "build": "tsc index -D --downlevelIteration",
+    "test": "npm run build && node test"
   }
 }
