@@ -12,7 +12,7 @@ export interface Response {
 
 const pending = new Set();
 const queue = new AsyncQueue();
-const client = robert.client("https://api.truthordarebot.xyz/api");
+const client = robert.client("https://api.truthordarebot.xyz/v1");
 
 async function request(path: string, rating?: Rating): Promise<Response> {
   await queue.wait();
