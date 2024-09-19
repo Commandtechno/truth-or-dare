@@ -1,4 +1,4 @@
-![pog image](https://cdn.discordapp.com/attachments/825265084270903306/902745084913655828/38b410ffb57c254436958b39a9c6440f.png)
+![Truth or Dare Logo](https://truthordarebot.xyz/icon-192x192.png)
 
 # info
 
